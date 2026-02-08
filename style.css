@@ -678,11 +678,21 @@ body {
 
 .form-floating>.form-control:focus~label,
 .form-floating>.form-control:not(:placeholder-shown)~label {
-    color: var(--hbo-purple);
-    background-color: transparent;
+    color: var(--hbo-purple) !important;
+    background: linear-gradient(to bottom, #0f0f0f 50%, #23201c 50%) !important;
     opacity: 1;
-    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-    padding: 0.25rem 0.5rem;
+    transform: scale(0.8) translateY(-1.1rem) translateX(0.5rem);
+    padding: 0 12px !important;
+    height: auto;
+    border-radius: 4px;
+    z-index: 5;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-floating:hover>label {
+    color: white !important;
+    /* Subtle highlight on hover */
 }
 
 .form-floating>.form-control:focus~label::after,
@@ -1315,8 +1325,13 @@ footer {
 
 @media (max-width: 768px) {
     .footer-links {
-        font-size: 0.85rem;
-        gap: 15px 25px;
+        font-size: 0.75rem;
+        /* Further reduced for mobile */
+        gap: 12px 20px;
+    }
+
+    .footer-copyright {
+        font-size: 0.75rem;
     }
 
     .social-icons {
