@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('movie-container')) {
         fetchMovies();
         setupSearch();
+        setupScrollSpy();
     } else if (document.getElementById('authTabs')) {
         setupLogin();
     } else if (document.getElementById('player-backdrop')) {
@@ -504,3 +505,40 @@ window.togglePasswordVisibility = function (inputId, toggleElement) {
         icon.classList.add('fa-eye');
     }
 };
+
+// --- ScrollSpy (Active Link Highlighting) ---
+function setupScrollSpy() {
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    const sections = Array.from(document.querySelectorAll('.movie-section'));
+    const navbar = document.querySelector('.navbar');
+    const navHeight = navbar ? navbar.offsetHeight : 80;
+
+    if (sections.length === 0 || navLinks.length === 0) return;
+
+    function updateActiveLink() {
+        let currentSectionId = '';
+        const scrollPosition = window.scrollY + navHeight + 100; // Offset for better precision
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (currentSectionId && link.getAttribute('href') === `#${currentSectionId}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Use passive scroll listener for performance
+    window.addEventListener('scroll', updateActiveLink, { passive: true });
+
+    // Initial call
+    updateActiveLink();
+}
