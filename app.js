@@ -117,7 +117,7 @@ function updateHeroSection(movie) {
     if (playBtn) {
         playBtn.onclick = () => {
             const backdrop = movie.backdrop_path || movie.poster_path;
-            window.location.href = `http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}`;
+            window.location.href = `player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}`;
         };
     }
 }
@@ -150,7 +150,7 @@ function renderMovies(movies, containerId) {
         `;
 
         card.addEventListener('click', () => {
-            window.location.href = `http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}`;
+            window.location.href = `player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}`;
         });
 
         container.appendChild(card);
@@ -294,7 +294,7 @@ function setupAuthForm(formId, isSignup) {
         }
 
         const submitBtn = form.querySelector('button[type="submit"]');
-        const BASE_URL = 'http://localhost:3000';
+        const BASE_URL = ''; // Empty for relative calls
         const endpoint = isSignup ? `${BASE_URL}/api/signup` : `${BASE_URL}/api/login`;
 
         // Start Loading
@@ -319,7 +319,7 @@ function setupAuthForm(formId, isSignup) {
                     sessionStorage.setItem('authToken', data.token);
                     showToast("Welcome back! Redirecting...", "success");
                     setTimeout(() => {
-                        window.location.href = 'http://localhost:3000/index.html';
+                        window.location.href = 'index.html';
                     }, 1500);
                 } else {
                     showToast("Account created successfully! Please Sign In.", "success");
