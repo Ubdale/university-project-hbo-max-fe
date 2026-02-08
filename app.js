@@ -1,4 +1,5 @@
-const API_URL = 'https://jsonfakery.com/movies/paginated';
+const MOVIE_API_URL = 'https://jsonfakery.com/movies/paginated';
+const API_BASE_URL = 'https://university-project-hbo-max-be.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Determine which page we are on
@@ -24,7 +25,7 @@ async function fetchMovies() {
     };
 
     try {
-        const response = await fetch(API_URL, options);
+        const response = await fetch(MOVIE_API_URL, options);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -294,8 +295,7 @@ function setupAuthForm(formId, isSignup) {
         }
 
         const submitBtn = form.querySelector('button[type="submit"]');
-        const BASE_URL = ''; // Empty for relative calls
-        const endpoint = isSignup ? `${BASE_URL}/api/signup` : `${BASE_URL}/api/login`;
+        const endpoint = isSignup ? `${API_BASE_URL}/api/signup` : `${API_BASE_URL}/api/login`;
 
         // Start Loading
         if (submitBtn) submitBtn.classList.add('btn-loading');
@@ -380,7 +380,7 @@ async function updateNavbarAuthState() {
         userProfile.style.setProperty('display', 'flex', 'important');
 
         try {
-            const res = await fetch('/api/verify', {
+            const res = await fetch(`${API_BASE_URL}/api/verify`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token })
