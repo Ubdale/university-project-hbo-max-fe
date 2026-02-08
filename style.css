@@ -40,7 +40,7 @@ body {
     object-fit: contain;
 }
 
-.nav-link {
+.navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.7) !important;
     font-weight: 500;
     margin-right: 20px;
@@ -50,13 +50,13 @@ body {
     padding-bottom: 5px !important;
 }
 
-.nav-link:hover,
-.nav-link.active {
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
     color: #fff !important;
     text-shadow: 0 0 10px rgba(153, 51, 255, 0.8);
 }
 
-.nav-link::after {
+.navbar-nav .nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -68,11 +68,11 @@ body {
     border-radius: 10px;
 }
 
-.nav-link.active::after {
+.navbar-nav .nav-link.active::after {
     width: 100%;
 }
 
-.nav-link:hover::after {
+.navbar-nav .nav-link:hover::after {
     width: 50%;
 }
 
