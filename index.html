@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBO Max Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container-fluid px-5">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://images.cdn.prd.api.discomax.com/9274/49faa35978a9.png?h=120&f=webp" alt="HBO Max"
+                    class="nav-logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-4">
+                    <li class="nav-item"><a class="nav-link active" href="#trending">Trending Now</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#just-added">Just Added</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#popular">Popular Movies</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <!-- Search Container -->
+                    <div class="search-container me-3">
+                        <i class="fas fa-search text-white search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search movies...">
+                        <div class="search-results"></div>
+                    </div>
+
+                    <!-- Auth Buttons (shown when not logged in) -->
+                    <div class="auth-buttons auth-nav-item">
+                        <a href="login.html?tab=signin" class="btn btn-outline-light me-3 btn-sm px-3 rounded-pill">Sign
+                            In</a>
+                        <a href="login.html?tab=signup"
+                            class="btn btn-primary btn-gradient btn-sm px-3 rounded-pill">Sign Up</a>
+                    </div>
+
+                    <!-- User Profile (shown when logged in) -->
+                    <div class="user-profile auth-nav-item" style="display: none;">
+                        <div class="dropdown">
+                            <button class="profile-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                U
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="logout(); return false;"><i
+                                            class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Dynamic) -->
+    <header id="hero-section" class="hero-section d-flex align-items-center">
+        <div class="hero-overlay"></div>
+        <div class="container position-relative z-2">
+            <div class="col-lg-6 hero-content">
+                <!-- Content injected by JS -->
+                <img src="https://images.cdn.prd.api.discomax.com/9274/49faa35978a9.png?h=120&f=webp" alt="HBO Max"
+                    class="hero-brand-logo mb-3">
+                <h1 class="display-3 fw-bold mb-3" id="hero-title">Welcome</h1>
+                <p class="lead mb-4" id="hero-desc">Stream the best movies and series.</p>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-light btn-lg rounded-pill px-5 fw-bold"><i class="fas fa-play me-2"></i>
+                        Play</button>
+                    <button class="btn btn-secondary btn-lg rounded-pill px-5 fw-bold bg-opacity-50 border-0"><i
+                            class="fas fa-info-circle me-2"></i> More Info</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Movie Carousel: Trending -->
+    <div id="trending" class="movie-section container-fluid mt-n5 position-relative z-2 pb-4">
+        <h4 class="mb-3 ps-4 section-title">Trending Now</h4>
+        <div id="trendingCarousel" class="custom-slider">
+            <div class="slider-wrapper" id="movie-container">
+                <div class="text-center w-100 mt-5 loading-spinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-arrow prev" data-target="movie-container">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-arrow next" data-target="movie-container">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Movie Carousel: Just Added -->
+    <div id="just-added" class="movie-section container-fluid position-relative z-2 pb-4">
+        <h4 class="mb-3 ps-4 section-title">Just Added</h4>
+        <div id="justAddedCarousel" class="custom-slider">
+            <div class="slider-wrapper" id="movie-container-added"></div>
+            <button class="slider-arrow prev" data-target="movie-container-added">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-arrow next" data-target="movie-container-added">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Movie Carousel: Popular Movies -->
+    <div id="popular" class="movie-section container-fluid position-relative z-2 pb-5">
+        <h4 class="mb-3 ps-4 section-title">Popular Movies</h4>
+        <div id="popularCarousel" class="custom-slider">
+            <div class="slider-wrapper" id="movie-container-popular"></div>
+            <button class="slider-arrow prev" data-target="movie-container-popular">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-arrow next" data-target="movie-container-popular">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4">
+        <p>&copy; 2026 HBO Max Clone. For Educational Purposes Only.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
