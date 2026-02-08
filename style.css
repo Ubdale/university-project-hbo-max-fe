@@ -690,6 +690,29 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.password-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+    z-index: 10;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.password-toggle:hover {
+    color: var(--hbo-purple);
+}
+
+.password-toggle i {
+    font-size: 1.1rem;
+}
+
 .form-floating:hover>label {
     color: white !important;
     /* Subtle highlight on hover */
