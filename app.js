@@ -410,7 +410,7 @@ async function updateNavbarAuthState() {
 
 function logout() {
     sessionStorage.removeItem('authToken');
-    window.location.href = 'http://localhost:3000/index.html';
+    window.location.href = 'index.html';
 }
 
 // --- Search Functionality ---
@@ -478,7 +478,7 @@ function displaySearchResults(movies) {
         const backdrop = movie.backdrop_path || movie.poster_path;
 
         return `
-            <div class="search-result-item" onclick="window.location.href='http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}'">
+            <div class="search-result-item" onclick="window.location.href='player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}'">
                 <img src="${imageUrl}" alt="${title}" onerror="this.src='https://via.placeholder.com/50x75?text=No+Image'">
                 <div class="search-result-info">
                     <h6>${title}</h6>
