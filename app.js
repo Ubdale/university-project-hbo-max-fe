@@ -1,6 +1,4 @@
-const API_URL = 'https://imdb236.p.rapidapi.com/api/imdb/cast/nm0000190/titles';
-const RAPIDAPI_KEY = '70d4896873mshfad7bad7b9ef4aep1741e2jsn20041cd939fd';
-const RAPIDAPI_HOST = 'imdb236.p.rapidapi.com';
+const API_URL = 'https://jsonfakery.com/movies/paginated';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Determine which page we are on
@@ -19,13 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- Landing Page Logic ---
 async function fetchMovies() {
-    console.log("Fetching movies from API...");
+    console.log("Fetching movies from JSON Fakery...");
+    // JSON Fakery doesn't require headers by default
     const options = {
-        method: 'GET',
-        headers: {
-            'x-rapidapi-key': RAPIDAPI_KEY,
-            'x-rapidapi-host': RAPIDAPI_HOST
-        }
+        method: 'GET'
     };
 
     try {
@@ -35,18 +30,18 @@ async function fetchMovies() {
         }
 
         const data = await response.json();
-        const movies = data.titles || (Array.isArray(data) ? data : []);
+        // JSON Fakery paginated response has 'data' field containing the movies
+        const movies = data.data || [];
 
         if (movies.length === 0) {
             console.warn("No movies found.");
             return;
         }
 
-        // --- FILTERING LOGIC ---
-        // Filter out movies with no images or placeholder images to ensure high quality UI
+        // Filter out movies with no images
         const validMovies = movies.filter(movie => {
-            const img = movie.image || movie.poster || movie.primaryImage;
-            return img && !img.includes('placeholder') && !img.includes('null') && img.startsWith('http');
+            const img = movie.poster_path || movie.backdrop_path;
+            return img && !img.includes('placeholder') && !img.includes('null');
         });
 
         if (validMovies.length === 0) {
@@ -75,9 +70,26 @@ async function fetchMovies() {
         // Initialize sliders AFTER content is rendered
         initCustomSlider();
 
+        // Hide full page loader
+        hidePageLoader();
+
     } catch (error) {
         console.error('Error fetching movies:', error);
         document.getElementById('movie-container').innerHTML = '<p class="text-white text-center">Failed to load content.</p>';
+
+        // Hide loader even on error
+        hidePageLoader();
+    }
+}
+
+function hidePageLoader() {
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+        loader.classList.add('loader-fade-out');
+        // Optional: Remove from DOM after transition
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 1000);
     }
 }
 
@@ -87,9 +99,10 @@ function updateHeroSection(movie) {
 
     if (!heroSection || !movie) return;
 
-    const imageUrl = movie.image || movie.poster || movie.primaryImage;
-    const title = movie.title || movie.originalTitle || movie.primaryTitle;
-    const rating = movie.rating || (Math.random() * 2 + 7).toFixed(1);
+    // Prioritize backdrop for large hero area
+    const imageUrl = movie.backdrop_path || movie.poster_path;
+    const title = movie.original_title || movie.title || 'Unknown Title';
+    const rating = movie.vote_average || (Math.random() * 2 + 7).toFixed(1);
 
     if (imageUrl) {
         heroSection.style.backgroundImage = `url('${imageUrl}')`;
@@ -103,7 +116,8 @@ function updateHeroSection(movie) {
     const playBtn = document.querySelector('.hero-content .btn-light');
     if (playBtn) {
         playBtn.onclick = () => {
-            window.location.href = `http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(imageUrl)}&rating=${rating}`;
+            const backdrop = movie.backdrop_path || movie.poster_path;
+            window.location.href = `http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}`;
         };
     }
 }
@@ -119,9 +133,11 @@ function renderMovies(movies, containerId) {
     container.innerHTML = '';
 
     movies.forEach((movie, index) => {
-        const imageUrl = movie.image || movie.poster || movie.primaryImage;
-        const title = movie.title || movie.originalTitle || movie.primaryTitle || 'Unknown Title';
-        const rating = movie.rating || (Math.random() * 2 + 7).toFixed(1);
+        // Use poster for cards (portrait)
+        const imageUrl = movie.poster_path || movie.backdrop_path;
+        const title = movie.original_title || movie.title || 'Unknown Title';
+        const rating = movie.vote_average || (Math.random() * 2 + 7).toFixed(1);
+        const backdrop = movie.backdrop_path || movie.poster_path;
 
         const card = document.createElement('div');
         card.className = 'movie-card';
@@ -134,7 +150,7 @@ function renderMovies(movies, containerId) {
         `;
 
         card.addEventListener('click', () => {
-            window.location.href = `http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(imageUrl)}&rating=${rating}`;
+            window.location.href = `http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}`;
         });
 
         container.appendChild(card);
@@ -429,7 +445,7 @@ function setupSearch() {
         }
 
         const filtered = allMovies.filter(movie => {
-            const title = (movie.title || movie.originalTitle || movie.primaryTitle || '').toLowerCase();
+            const title = (movie.original_title || movie.title || '').toLowerCase();
             return title.includes(query);
         });
 
@@ -456,12 +472,13 @@ function displaySearchResults(movies) {
     }
 
     searchResults.innerHTML = movies.map(movie => {
-        const imageUrl = movie.image || movie.poster || movie.primaryImage;
-        const title = movie.title || movie.originalTitle || movie.primaryTitle || 'Unknown Title';
-        const rating = movie.rating || (Math.random() * 2 + 7).toFixed(1);
+        const imageUrl = movie.poster_path || movie.backdrop_path;
+        const title = movie.original_title || movie.title || 'Unknown Title';
+        const rating = movie.vote_average || (Math.random() * 2 + 7).toFixed(1);
+        const backdrop = movie.backdrop_path || movie.poster_path;
 
         return `
-            <div class="search-result-item" onclick="window.location.href='http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(imageUrl)}&rating=${rating}'">
+            <div class="search-result-item" onclick="window.location.href='http://localhost:3000/player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}'">
                 <img src="${imageUrl}" alt="${title}" onerror="this.src='https://via.placeholder.com/50x75?text=No+Image'">
                 <div class="search-result-info">
                     <h6>${title}</h6>
