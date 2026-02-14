@@ -1048,8 +1048,21 @@ body:not(.player-body) {
     }
 
     .movie-carousel .carousel-inner {
-        gap: 12px;
-        padding: 10px 15px;
+        padding: 10px 50px;
+        min-height: 250px;
+    }
+
+    .movie-carousel .carousel-control-prev,
+    .movie-carousel .carousel-control-next {
+        width: 50px;
+    }
+
+    .movie-carousel .carousel-control-prev {
+        padding-left: 10px;
+    }
+
+    .movie-carousel .carousel-control-next {
+        padding-right: 10px;
     }
 
     .movie-card {
@@ -1061,6 +1074,7 @@ body:not(.player-body) {
 /* Mobile Devices (max-width: 768px) */
 @media (max-width: 768px) {
     .movie-carousel .carousel-inner {
+        padding: 15px 40px;
         min-height: 225px;
     }
 
@@ -1118,26 +1132,15 @@ body:not(.player-body) {
         min-height: 400px;
     }
 
-    .movie-carousel .carousel-inner {
-        padding: 20px 30px;
-    }
-
+    /* Hide arrows on mobile - users can swipe */
     .movie-carousel .carousel-control-prev,
     .movie-carousel .carousel-control-next {
-        width: 50px;
-    }
-
-    .movie-carousel .carousel-control-prev {
-        padding-left: 10px;
-    }
-
-    .movie-carousel .carousel-control-next {
-        padding-right: 10px;
+        display: none;
     }
 
     .movie-card {
-        width: 140px;
-        height: 210px;
+        width: 120px;
+        height: 180px;
     }
 
     .hero-title {
@@ -1166,20 +1169,12 @@ body:not(.player-body) {
 
     .section-title {
         font-size: 1.25rem;
-        padding-left: 1.5rem !important;
+        padding-left: 40px !important;
     }
 
     .movie-card {
-        flex: 0 0 150px;
-        height: 225px;
         border: 1px solid rgba(255, 255, 255, 0.4);
-        /* Brighter border for better mobile visibility */
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    }
-
-    .slider-arrow {
-        display: none !important;
-        /* Touch scrolling is better for mobile */
     }
 
     .search-container {
@@ -1191,7 +1186,8 @@ body:not(.player-body) {
 
     .movie-section {
         padding-bottom: 2rem !important;
-        /* Reduce gap on mobile */
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
     .search-input {
@@ -1323,11 +1319,25 @@ body:not(.player-body) {
         font-size: 1.5rem !important;
     }
 
+    .movie-carousel .carousel-inner {
+        padding: 10px 35px;
+    }
+
+    /* Hide arrows on small mobile - users can swipe */
+    .movie-carousel .carousel-control-prev,
+    .movie-carousel .carousel-control-next {
+        display: none;
+    }
+
     .movie-card {
-        flex: 0 0 130px;
-        height: 195px;
+        width: 110px;
+        height: 165px;
         border: 1px solid rgba(255, 255, 255, 0.5);
-        /* Even brighter for small screens */
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        padding-left: 35px !important;
     }
 
     .navbar-nav .nav-link {
