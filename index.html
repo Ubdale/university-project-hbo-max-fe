@@ -102,19 +102,21 @@
     <!-- Movie Carousel: Trending -->
     <div id="trending" class="movie-section container-fluid mt-n5 position-relative z-2 pb-4">
         <h4 class="mb-3 ps-4 section-title">Trending Now</h4>
-        <div id="trendingCarousel" class="custom-slider">
-            <div class="slider-wrapper" id="movie-container">
+        <div id="trendingCarousel" class="carousel slide movie-carousel" data-bs-ride="false">
+            <div class="carousel-inner" id="movie-container">
                 <div class="text-center w-100 mt-5 loading-spinner">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             </div>
-            <button class="slider-arrow prev" data-target="movie-container">
+            <button class="carousel-control-prev" type="button" data-bs-target="#trendingCarousel" data-bs-slide="prev">
                 <i class="fas fa-chevron-left"></i>
+                <span class="visually-hidden">Previous</span>
             </button>
-            <button class="slider-arrow next" data-target="movie-container">
+            <button class="carousel-control-next" type="button" data-bs-target="#trendingCarousel" data-bs-slide="next">
                 <i class="fas fa-chevron-right"></i>
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
     </div>
@@ -122,13 +124,15 @@
     <!-- Movie Carousel: Just Added -->
     <div id="just-added" class="movie-section container-fluid position-relative z-2 pb-4">
         <h4 class="mb-3 ps-4 section-title">Just Added</h4>
-        <div id="justAddedCarousel" class="custom-slider">
-            <div class="slider-wrapper" id="movie-container-added"></div>
-            <button class="slider-arrow prev" data-target="movie-container-added">
+        <div id="justAddedCarousel" class="carousel slide movie-carousel" data-bs-ride="false">
+            <div class="carousel-inner" id="movie-container-added"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#justAddedCarousel" data-bs-slide="prev">
                 <i class="fas fa-chevron-left"></i>
+                <span class="visually-hidden">Previous</span>
             </button>
-            <button class="slider-arrow next" data-target="movie-container-added">
+            <button class="carousel-control-next" type="button" data-bs-target="#justAddedCarousel" data-bs-slide="next">
                 <i class="fas fa-chevron-right"></i>
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
     </div>
@@ -136,13 +140,15 @@
     <!-- Movie Carousel: Popular Movies -->
     <div id="popular" class="movie-section container-fluid position-relative z-2 pb-5">
         <h4 class="mb-3 ps-4 section-title">Popular Movies</h4>
-        <div id="popularCarousel" class="custom-slider">
-            <div class="slider-wrapper" id="movie-container-popular"></div>
-            <button class="slider-arrow prev" data-target="movie-container-popular">
+        <div id="popularCarousel" class="carousel slide movie-carousel" data-bs-ride="false">
+            <div class="carousel-inner" id="movie-container-popular"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#popularCarousel" data-bs-slide="prev">
                 <i class="fas fa-chevron-left"></i>
+                <span class="visually-hidden">Previous</span>
             </button>
-            <button class="slider-arrow next" data-target="movie-container-popular">
+            <button class="carousel-control-next" type="button" data-bs-target="#popularCarousel" data-bs-slide="next">
                 <i class="fas fa-chevron-right"></i>
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
     </div>

@@ -280,83 +280,90 @@ body {
     border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Custom Slider Layout */
-.custom-slider {
+/* Bootstrap Carousel Styling */
+.movie-carousel {
     position: relative;
     width: 100%;
-    overflow: visible;
-    /* Allow hover zoom to be visible */
-    padding: 0;
+    padding: 20px 0;
     margin-bottom: 2rem;
 }
 
-.slider-wrapper {
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-behavior: smooth;
-    gap: 12px;
+.movie-carousel .carousel-inner {
     padding: 20px 60px;
-    /* Reduced vertical padding */
     min-height: 320px;
-    /* Adjusted for 2:3 aspect ratio cards */
-    scrollbar-width: none;
-    /* Hide scrollbar for Firefox */
-    -ms-overflow-style: none;
-    /* Hide scrollbar for IE/Edge */
+    overflow: visible;
 }
 
-.slider-wrapper::-webkit-scrollbar {
-    display: none;
-    /* Hide scrollbar for Chrome/Safari/Opera */
+.movie-carousel .carousel-item {
+    transition: transform 0.6s ease-in-out;
 }
 
-/* Custom Slider Arrow Styling */
-.slider-arrow {
-    position: absolute;
-    top: 50%;
-    /* Center relative to slider container */
-    transform: translateY(-50%);
-    width: 60px;
-    height: calc(100% - 40px);
-    /* Fill most of the vertical space */
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
-    color: white;
-    border: none;
-    z-index: 100;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
+/* Carousel Control Buttons (Arrows) */
+.movie-carousel .carousel-control-prev,
+.movie-carousel .carousel-control-next {
+    width: 80px;
+    height: 100%;
+    top: 0;
+    transform: none;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    z-index: 100;
+    border: none;
+    margin: 0;
 }
 
-.custom-slider:hover .slider-arrow:not(.arrow-hidden) {
+.movie-carousel:hover .carousel-control-prev,
+.movie-carousel:hover .carousel-control-next {
     opacity: 1;
     visibility: visible;
 }
 
-.arrow-hidden {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none;
-}
-
-.slider-arrow:hover {
-    background: rgba(0, 0, 0, 0.9);
-}
-
-.slider-arrow.prev {
+.movie-carousel .carousel-control-prev {
     left: 0;
     background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+    justify-content: flex-start;
+    padding-left: 20px;
 }
 
-.slider-arrow.next {
+.movie-carousel .carousel-control-next {
     right: 0;
     background: linear-gradient(to left, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+.movie-carousel .carousel-control-prev:hover,
+.movie-carousel .carousel-control-next:hover {
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.movie-carousel .carousel-control-prev:focus,
+.movie-carousel .carousel-control-prev:active,
+.movie-carousel .carousel-control-prev:focus-visible {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+    outline: none;
+    box-shadow: none;
+}
+
+.movie-carousel .carousel-control-next:focus,
+.movie-carousel .carousel-control-next:active,
+.movie-carousel .carousel-control-next:focus-visible {
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+    outline: none;
+    box-shadow: none;
+}
+
+.movie-carousel .carousel-control-prev i,
+.movie-carousel .carousel-control-next i {
+    font-size: 2rem;
+    color: white;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+.movie-carousel .carousel-control-prev-icon,
+.movie-carousel .carousel-control-next-icon {
+    display: none;
 }
 
 .movie-card {
@@ -468,6 +475,8 @@ body {
 /* Movie Swimlane */
 .movie-section {
     padding-bottom: 1rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .section-title {
@@ -475,7 +484,7 @@ body {
     font-weight: 600;
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 0.5rem;
-    padding-left: 55px;
+    padding-left: 80px;
     /* Align with slider starting point */
     border: none;
     /* Removed the purple border for exact look */
@@ -1038,7 +1047,7 @@ body:not(.player-body) {
         background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
     }
 
-    .slider-wrapper {
+    .movie-carousel .carousel-inner {
         gap: 12px;
         padding: 10px 15px;
     }
@@ -1051,7 +1060,7 @@ body:not(.player-body) {
 
 /* Mobile Devices (max-width: 768px) */
 @media (max-width: 768px) {
-    .slider-wrapper {
+    .movie-carousel .carousel-inner {
         min-height: 225px;
     }
 
@@ -1107,6 +1116,28 @@ body:not(.player-body) {
     .hero-section {
         height: 60vh;
         min-height: 400px;
+    }
+
+    .movie-carousel .carousel-inner {
+        padding: 20px 30px;
+    }
+
+    .movie-carousel .carousel-control-prev,
+    .movie-carousel .carousel-control-next {
+        width: 50px;
+    }
+
+    .movie-carousel .carousel-control-prev {
+        padding-left: 10px;
+    }
+
+    .movie-carousel .carousel-control-next {
+        padding-right: 10px;
+    }
+
+    .movie-card {
+        width: 140px;
+        height: 210px;
     }
 
     .hero-title {
