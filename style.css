@@ -294,6 +294,10 @@ body {
     overflow: visible;
 }
 
+.movie-carousel {
+    touch-action: pan-y;
+}
+
 .movie-carousel .carousel-item {
     transition: transform 0.6s ease-in-out;
 }
