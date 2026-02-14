@@ -280,94 +280,83 @@ body {
     border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Bootstrap Carousel Styling */
-.movie-carousel {
+/* Custom Slider Layout */
+.custom-slider {
     position: relative;
     width: 100%;
-    padding: 20px 0;
+    overflow: visible;
+    /* Allow hover zoom to be visible */
+    padding: 0;
     margin-bottom: 2rem;
 }
 
-.movie-carousel .carousel-inner {
+.slider-wrapper {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    gap: 12px;
     padding: 20px 60px;
+    /* Reduced vertical padding */
     min-height: 320px;
-    overflow: visible;
+    /* Adjusted for 2:3 aspect ratio cards */
+    scrollbar-width: none;
+    /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar for IE/Edge */
 }
 
-.movie-carousel {
-    touch-action: pan-y;
+.slider-wrapper::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar for Chrome/Safari/Opera */
 }
 
-.movie-carousel .carousel-item {
-    transition: transform 0.6s ease-in-out;
-}
-
-/* Carousel Control Buttons (Arrows) */
-.movie-carousel .carousel-control-prev,
-.movie-carousel .carousel-control-next {
-    width: 80px;
-    height: 100%;
-    top: 0;
-    transform: none;
+/* Custom Slider Arrow Styling */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    /* Center relative to slider container */
+    transform: translateY(-50%);
+    width: 60px;
+    height: calc(100% - 40px);
+    /* Fill most of the vertical space */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    border: none;
+    z-index: 100;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 100;
-    border: none;
-    margin: 0;
 }
 
-.movie-carousel:hover .carousel-control-prev,
-.movie-carousel:hover .carousel-control-next {
+.custom-slider:hover .slider-arrow:not(.arrow-hidden) {
     opacity: 1;
     visibility: visible;
 }
 
-.movie-carousel .carousel-control-prev {
+.arrow-hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+}
+
+.slider-arrow:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.slider-arrow.prev {
     left: 0;
     background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
-    justify-content: flex-start;
-    padding-left: 20px;
 }
 
-.movie-carousel .carousel-control-next {
+.slider-arrow.next {
     right: 0;
     background: linear-gradient(to left, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
-    justify-content: flex-end;
-    padding-right: 20px;
-}
-
-.movie-carousel .carousel-control-prev:hover,
-.movie-carousel .carousel-control-next:hover {
-    background: rgba(0, 0, 0, 0.95);
-}
-
-.movie-carousel .carousel-control-prev:focus,
-.movie-carousel .carousel-control-prev:active,
-.movie-carousel .carousel-control-prev:focus-visible {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
-    outline: none;
-    box-shadow: none;
-}
-
-.movie-carousel .carousel-control-next:focus,
-.movie-carousel .carousel-control-next:active,
-.movie-carousel .carousel-control-next:focus-visible {
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
-    outline: none;
-    box-shadow: none;
-}
-
-.movie-carousel .carousel-control-prev i,
-.movie-carousel .carousel-control-next i {
-    font-size: 2rem;
-    color: white;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-}
-
-.movie-carousel .carousel-control-prev-icon,
-.movie-carousel .carousel-control-next-icon {
-    display: none;
 }
 
 .movie-card {
@@ -479,8 +468,6 @@ body {
 /* Movie Swimlane */
 .movie-section {
     padding-bottom: 1rem !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
 }
 
 .section-title {
@@ -488,7 +475,7 @@ body {
     font-weight: 600;
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 0.5rem;
-    padding-left: 80px;
+    padding-left: 55px;
     /* Align with slider starting point */
     border: none;
     /* Removed the purple border for exact look */
@@ -1051,22 +1038,9 @@ body:not(.player-body) {
         background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
     }
 
-    .movie-carousel .carousel-inner {
-        padding: 10px 50px;
-        min-height: 250px;
-    }
-
-    .movie-carousel .carousel-control-prev,
-    .movie-carousel .carousel-control-next {
-        width: 50px;
-    }
-
-    .movie-carousel .carousel-control-prev {
-        padding-left: 10px;
-    }
-
-    .movie-carousel .carousel-control-next {
-        padding-right: 10px;
+    .slider-wrapper {
+        gap: 12px;
+        padding: 10px 15px;
     }
 
     .movie-card {
@@ -1077,8 +1051,7 @@ body:not(.player-body) {
 
 /* Mobile Devices (max-width: 768px) */
 @media (max-width: 768px) {
-    .movie-carousel .carousel-inner {
-        padding: 15px 40px;
+    .slider-wrapper {
         min-height: 225px;
     }
 
@@ -1136,32 +1109,6 @@ body:not(.player-body) {
         min-height: 400px;
     }
 
-    /* Show arrows on mobile for navigation */
-    .movie-carousel .carousel-control-prev,
-    .movie-carousel .carousel-control-next {
-        width: 40px;
-        opacity: 0.8;
-        visibility: visible;
-    }
-
-    .movie-carousel .carousel-control-prev {
-        padding-left: 8px;
-    }
-
-    .movie-carousel .carousel-control-next {
-        padding-right: 8px;
-    }
-
-    .movie-carousel .carousel-control-prev i,
-    .movie-carousel .carousel-control-next i {
-        font-size: 1.5rem;
-    }
-
-    .movie-card {
-        width: 120px;
-        height: 180px;
-    }
-
     .hero-title {
         font-size: 2rem !important;
     }
@@ -1188,12 +1135,20 @@ body:not(.player-body) {
 
     .section-title {
         font-size: 1.25rem;
-        padding-left: 40px !important;
+        padding-left: 1.5rem !important;
     }
 
     .movie-card {
+        flex: 0 0 150px;
+        height: 225px;
         border: 1px solid rgba(255, 255, 255, 0.4);
+        /* Brighter border for better mobile visibility */
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .slider-arrow {
+        display: none !important;
+        /* Touch scrolling is better for mobile */
     }
 
     .search-container {
@@ -1205,8 +1160,7 @@ body:not(.player-body) {
 
     .movie-section {
         padding-bottom: 2rem !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
+        /* Reduce gap on mobile */
     }
 
     .search-input {
@@ -1338,40 +1292,11 @@ body:not(.player-body) {
         font-size: 1.5rem !important;
     }
 
-    .movie-carousel .carousel-inner {
-        padding: 10px 35px;
-    }
-
-    /* Show arrows on small mobile for navigation */
-    .movie-carousel .carousel-control-prev,
-    .movie-carousel .carousel-control-next {
-        width: 35px;
-        opacity: 0.85;
-        visibility: visible;
-    }
-
-    .movie-carousel .carousel-control-prev {
-        padding-left: 5px;
-    }
-
-    .movie-carousel .carousel-control-next {
-        padding-right: 5px;
-    }
-
-    .movie-carousel .carousel-control-prev i,
-    .movie-carousel .carousel-control-next i {
-        font-size: 1.2rem;
-    }
-
     .movie-card {
-        width: 110px;
-        height: 165px;
+        flex: 0 0 130px;
+        height: 195px;
         border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .section-title {
-        font-size: 1.1rem;
-        padding-left: 35px !important;
+        /* Even brighter for small screens */
     }
 
     .navbar-nav .nav-link {

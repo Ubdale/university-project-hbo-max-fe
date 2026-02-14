@@ -63,14 +63,16 @@ async function fetchMovies() {
 
     // Render multiple rows for "Full" UI feel
     // We reuse the same movie list but shuffle/slice to simulate different categories
-    trendingMovies = validMovies;
-    renderMovies(trendingMovies, "movie-container");
+    renderMovies(validMovies, "movie-container");
 
-    justAddedMovies = [...validMovies].sort(() => 0.5 - Math.random());
-    renderMovies(justAddedMovies, "movie-container-added");
+    const shuffled = [...validMovies].sort(() => 0.5 - Math.random());
+    renderMovies(shuffled, "movie-container-added");
 
-    popularMovies = [...validMovies].reverse();
-    renderMovies(popularMovies, "movie-container-popular");
+    const reversed = [...validMovies].reverse();
+    renderMovies(reversed, "movie-container-popular");
+
+    // Initialize sliders AFTER content is rendered
+    initCustomSlider();
 
     // Hide full page loader
     hidePageLoader();
@@ -134,59 +136,76 @@ function renderMovies(movies, containerId) {
 
   container.innerHTML = "";
 
-  // Number of movies per slide (responsive)
-  let moviesPerSlide = 6;
-  if (window.innerWidth < 480) {
-    moviesPerSlide = 2;
-  } else if (window.innerWidth < 768) {
-    moviesPerSlide = 3;
-  } else if (window.innerWidth < 1200) {
-    moviesPerSlide = 4;
-  }
+  movies.forEach((movie, index) => {
+    // Use poster for cards (portrait)
+    const imageUrl = movie.poster_path || movie.backdrop_path;
+    const title = movie.original_title || movie.title || "Unknown Title";
+    const rating = movie.vote_average || (Math.random() * 2 + 7).toFixed(1);
+    const backdrop = movie.backdrop_path || movie.poster_path;
 
-  const totalSlides = Math.ceil(movies.length / moviesPerSlide);
+    const card = document.createElement("div");
+    card.className = "movie-card";
+    card.style.animationDelay = `${index * 0.05}s`; // Staggered entrance
+    card.innerHTML = `
+            <img src="${imageUrl}" alt="${title}" onerror="this.src='https://via.placeholder.com/200x300?text=Image+Error'">
+            <div class="movie-info">
+                <h6>${title}</h6>
+            </div>
+        `;
 
-  for (let slideIndex = 0; slideIndex < totalSlides; slideIndex++) {
-    const slideMovies = movies.slice(
-      slideIndex * moviesPerSlide,
-      (slideIndex + 1) * moviesPerSlide,
-    );
-
-    const carouselItem = document.createElement("div");
-    carouselItem.className = `carousel-item ${slideIndex === 0 ? "active" : ""}`;
-
-    const row = document.createElement("div");
-    // Responsive gap: smaller on mobile
-    const gapClass = window.innerWidth < 768 ? "gap-2" : "gap-3";
-    row.className = `d-flex ${gapClass} justify-content-center px-4`;
-
-    slideMovies.forEach((movie, index) => {
-      // Use poster for cards (portrait)
-      const imageUrl = movie.poster_path || movie.backdrop_path;
-      const title = movie.original_title || movie.title || "Unknown Title";
-      const rating = movie.vote_average || (Math.random() * 2 + 7).toFixed(1);
-      const backdrop = movie.backdrop_path || movie.poster_path;
-
-      const card = document.createElement("div");
-      card.className = "movie-card";
-      card.style.animationDelay = `${index * 0.05}s`; // Staggered entrance
-      card.innerHTML = `
-                <img src="${imageUrl}" alt="${title}" onerror="this.src='https://via.placeholder.com/200x300?text=Image+Error'">
-                <div class="movie-info">
-                    <h6>${title}</h6>
-                </div>
-            `;
-
-      card.addEventListener("click", () => {
-        window.location.href = `player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}`;
-      });
-
-      row.appendChild(card);
+    card.addEventListener("click", () => {
+      window.location.href = `player.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(backdrop)}&rating=${rating}`;
     });
 
-    carouselItem.appendChild(row);
-    container.appendChild(carouselItem);
-  }
+    container.appendChild(card);
+  });
+}
+
+function initCustomSlider() {
+  const sliders = document.querySelectorAll(".slider-wrapper");
+
+  sliders.forEach((container) => {
+    const sliderParent = container.closest(".custom-slider");
+    const prevBtn = sliderParent.querySelector(".slider-arrow.prev");
+    const nextBtn = sliderParent.querySelector(".slider-arrow.next");
+
+    const updateArrows = () => {
+      if (!prevBtn || !nextBtn) return;
+      // Show/Hide prev arrow
+      prevBtn.classList.toggle("arrow-hidden", container.scrollLeft <= 10);
+
+      // Show/Hide next arrow
+      const isAtEnd =
+        container.scrollLeft + container.clientWidth >=
+        container.scrollWidth - 10;
+      nextBtn.classList.toggle("arrow-hidden", isAtEnd);
+    };
+
+    // Initial check after content is likely rendered
+    setTimeout(updateArrows, 500);
+
+    // Update on scroll
+    container.addEventListener("scroll", updateArrows);
+
+    // Arrow click logic
+    prevBtn.addEventListener("click", () => {
+      container.scrollBy({
+        left: -container.clientWidth * 0.8,
+        behavior: "smooth",
+      });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      container.scrollBy({
+        left: container.clientWidth * 0.8,
+        behavior: "smooth",
+      });
+    });
+
+    // Resize observer to update arrows when window size changes
+    const resizeObserver = new ResizeObserver(() => updateArrows());
+    resizeObserver.observe(container);
+  });
 }
 
 // --- Player Page Logic ---
@@ -413,22 +432,6 @@ function logout() {
 
 // --- Search Functionality ---
 let allMovies = [];
-let trendingMovies = [];
-let justAddedMovies = [];
-let popularMovies = [];
-
-// Debounced resize handler for responsive carousel
-let resizeTimeout;
-window.addEventListener("resize", () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    if (trendingMovies.length > 0) {
-      renderMovies(trendingMovies, "movie-container");
-      renderMovies(justAddedMovies, "movie-container-added");
-      renderMovies(popularMovies, "movie-container-popular");
-    }
-  }, 250);
-});
 
 function setupSearch() {
   const searchIcon = document.querySelector(".search-icon");
