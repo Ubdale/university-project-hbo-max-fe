@@ -1132,10 +1132,25 @@ body:not(.player-body) {
         min-height: 400px;
     }
 
-    /* Hide arrows on mobile - users can swipe */
+    /* Show arrows on mobile for navigation */
     .movie-carousel .carousel-control-prev,
     .movie-carousel .carousel-control-next {
-        display: none;
+        width: 40px;
+        opacity: 0.8;
+        visibility: visible;
+    }
+
+    .movie-carousel .carousel-control-prev {
+        padding-left: 8px;
+    }
+
+    .movie-carousel .carousel-control-next {
+        padding-right: 8px;
+    }
+
+    .movie-carousel .carousel-control-prev i,
+    .movie-carousel .carousel-control-next i {
+        font-size: 1.5rem;
     }
 
     .movie-card {
@@ -1323,10 +1338,25 @@ body:not(.player-body) {
         padding: 10px 35px;
     }
 
-    /* Hide arrows on small mobile - users can swipe */
+    /* Show arrows on small mobile for navigation */
     .movie-carousel .carousel-control-prev,
     .movie-carousel .carousel-control-next {
-        display: none;
+        width: 35px;
+        opacity: 0.85;
+        visibility: visible;
+    }
+
+    .movie-carousel .carousel-control-prev {
+        padding-left: 5px;
+    }
+
+    .movie-carousel .carousel-control-next {
+        padding-right: 5px;
+    }
+
+    .movie-carousel .carousel-control-prev i,
+    .movie-carousel .carousel-control-next i {
+        font-size: 1.2rem;
     }
 
     .movie-card {
