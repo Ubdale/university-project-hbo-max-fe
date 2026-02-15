@@ -1,5 +1,6 @@
 const MOVIE_API_URL = "https://jsonfakery.com/movies/paginated";
 const API_BASE_URL = "https://university-project-hbo-max-be.onrender.com";
+// const API_BASE_URL = "http://localhost:3000"; // For local development
 
 document.addEventListener("DOMContentLoaded", () => {
   // Determine which page we are on
@@ -328,24 +329,24 @@ function setupAuthForm(formId, isSignup) {
       if (submitBtn) submitBtn.classList.remove("btn-loading");
 
       if (res.ok) {
-        if (!isSignup) {
-          // Store token in sessionStorage
-          sessionStorage.setItem("authToken", data.token);
-          showToast("Welcome back! Redirecting...", "success");
-          setTimeout(() => {
-            window.location.href = "index.html";
-          }, 1500);
-        } else {
-          showToast("Account created successfully! Please Sign In.", "success");
-          // Switch to sign in tab
-          const signinTabBtn = document.querySelector("#signin-tab");
-          if (signinTabBtn) {
-            const tab = new bootstrap.Tab(signinTabBtn);
-            tab.show();
-          }
-          // Clear signup form
-          form.reset();
+        // Store token and user data in sessionStorage for both signup and login
+        sessionStorage.setItem("authToken", data.token);
+        sessionStorage.setItem("userId", data.user.id);
+        sessionStorage.setItem("userEmail", data.user.email);
+        if (data.user.name) {
+          sessionStorage.setItem("userName", data.user.name);
         }
+
+        if (!isSignup) {
+          showToast("Welcome back! Redirecting...", "success");
+        } else {
+          showToast("Account created! Redirecting...", "success");
+        }
+
+        // Redirect to main page after a short delay
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1500);
       } else {
         showToast(data.message || "Authentication failed", "danger");
       }
@@ -415,6 +416,9 @@ async function updateNavbarAuthState() {
     } catch (error) {
       console.log("Auth toggle: Verification failed:", error);
       sessionStorage.removeItem("authToken");
+      sessionStorage.removeItem("userId");
+      sessionStorage.removeItem("userEmail");
+      sessionStorage.removeItem("userName");
       authButtons.style.setProperty("display", "flex", "important");
       userProfile.style.setProperty("display", "none", "important");
     }
@@ -427,6 +431,9 @@ async function updateNavbarAuthState() {
 
 function logout() {
   sessionStorage.removeItem("authToken");
+  sessionStorage.removeItem("userId");
+  sessionStorage.removeItem("userEmail");
+  sessionStorage.removeItem("userName");
   window.location.href = "index.html";
 }
 
