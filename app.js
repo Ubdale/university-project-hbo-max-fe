@@ -1,6 +1,6 @@
 const MOVIE_API_URL = "https://jsonfakery.com/movies/paginated";
-const API_BASE_URL = "https://university-project-hbo-max-be.onrender.com";
-// const API_BASE_URL = "http://localhost:3000"; // For local development
+// const API_BASE_URL = "https://university-project-hbo-max-be.onrender.com";
+const API_BASE_URL = "http://localhost:3000"; // For local development
 
 document.addEventListener("DOMContentLoaded", () => {
   // Determine which page we are on
@@ -336,6 +336,12 @@ function setupAuthForm(formId, isSignup) {
         if (data.user.name) {
           sessionStorage.setItem("userName", data.user.name);
         }
+
+        console.log("User authenticated successfully:", {
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+        });
 
         if (!isSignup) {
           showToast("Welcome back! Redirecting...", "success");
