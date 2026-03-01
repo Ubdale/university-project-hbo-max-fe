@@ -1,6 +1,6 @@
 const MOVIE_API_URL = "https://jsonfakery.com/movies/paginated";
-// const API_BASE_URL = "https://university-project-hbo-max-be.onrender.com";
-const API_BASE_URL = "http://localhost:3000"; // For local development
+const API_BASE_URL = "https://university-project-hbo-max-be.onrender.com";
+// const API_BASE_URL = "http://localhost:3000"; // For local development
 
 document.addEventListener("DOMContentLoaded", () => {
   // Determine which page we are on
